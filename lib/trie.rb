@@ -11,18 +11,13 @@ class CompleteMe
   end
 
   def insert(word, current_node = @root)
-    manipulate_word(word).each do |letter|
+    word.chars.each do |letter|
       if current_node.links[letter].nil?
         current_node.links[letter] = Node.new(letter)
-        current_node = current_node.links[letter]
       end
+      current_node = current_node.links[letter]
     end
     current_node.end_of_word = true
-  end
-
-  def manipulate_word(word)
-    downcased = word.downcase
-    downcased.chars
   end
 
   def count(current_node = @root, current_count = 0)

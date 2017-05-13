@@ -39,7 +39,7 @@ class CompleteMeTest < Minitest::Test
     assert_equal ['a'], trie.root.links['p'].links['i'].links['z'].links['z'].links.keys
   end
 
-  def test_insert_marks_end_of_word
+  def test_insert_marks_end_of_1_word
     trie = CompleteMe.new
 
     trie.insert('pizza')
@@ -49,6 +49,18 @@ class CompleteMeTest < Minitest::Test
     refute trie.root.links['p'].links['i'].end_of_word
     refute trie.root.links['p'].links['i'].links['z'].end_of_word
     refute trie.root.links['p'].links['i'].links['z'].links['z'].end_of_word
+  end
+
+  def test_insert_marks_end_of_10_words
+    #todo
+    trie = CompleteMe.new
+
+    insert_10_words(trie)
+
+    assert trie.root.links['p'].links['i'].links['z'].end_of_word
+    assert trie.root.links['p'].links['i'].links['z'].links['z'].links['e'].links['r'].links['i'].links['a'].end_of_word
+    assert trie.root.links['p'].links['e'].links['p'].links['p'].links['e'].links['r'].links['o'].links['n'].links['i'].end_of_word
+    assert trie.root.links['p'].links['e'].links['p'].links['p'].links['e'].links['r'].end_of_word
   end
 
   #later maybe test that insert functions correctly when substring of word already exists?
@@ -66,7 +78,7 @@ class CompleteMeTest < Minitest::Test
 
     insert_10_words(trie)
 
-    assert_equal 30, trie.count
+    assert_equal 10, trie.count
   end
 
   def test_counts_correctly_if_called_twice
@@ -74,8 +86,8 @@ class CompleteMeTest < Minitest::Test
 
     insert_10_words(trie)
 
-    assert_equal 30, trie.count
-    assert_equal 30, trie.count
+    assert_equal 10, trie.count
+    assert_equal 10, trie.count
   end
 
   def test_populate_inserts_words
@@ -83,10 +95,23 @@ class CompleteMeTest < Minitest::Test
     dictionary = File.path("/usr/share/dict/words")
     trie.populate(dictionary)
 
-    #assert_equal 235886, trie.count
+    assert_equal 235886, trie.count
   end
 
   def insert_10_words(trie)
+    trie.insert('piz')
+    trie.insert('pizzeria')
+    trie.insert('pepperoni')
+    trie.insert('pepper')
+    trie.insert('vegertarian')
+    trie.insert('italian')
+    trie.insert('neopolitan')
+    trie.insert('marinara')
+    trie.insert('hawaiian')
+    trie.insert('sausage')
+  end
+
+  def insert_30_words(trie)
     trie.insert('piz')
     trie.insert('pizzeria')
     trie.insert('pepperoni')
@@ -117,22 +142,5 @@ class CompleteMeTest < Minitest::Test
     trie.insert('Abner')
     trie.insert('abody')
     trie.insert('abolition')
-  end
-
-  def insert_14_words(trie)
-    trie.insert('piz')
-    trie.insert('pizzeria')
-    trie.insert('pepperoni')
-    trie.insert('pepper')
-    trie.insert('vegertarian')
-    trie.insert('italian')
-    trie.insert('neopolitan')
-    trie.insert('marinara')
-    trie.insert('hawaiian')
-    trie.insert('sausage')
-    trie.insert("abacay")
-    trie.insert('abaculus')
-    trie.insert('abaissed')
-    trie.insert('abalone')
   end
 end

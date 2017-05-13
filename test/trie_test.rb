@@ -3,15 +3,15 @@ require 'minitest/pride'
 require_relative '../lib/trie'
 require_relative '../lib/node'
 
-class TrieTest < Minitest::Test
+class CompleteMeTest < Minitest::Test
   def test_root_is_node_with_nil_letter
-    tree = Trie.new
+    tree = CompleteMe.new
 
     assert_nil tree.root.letter
   end
 
   def test_insert_1_letter_word
-    trie = Trie.new
+    trie = CompleteMe.new
 
     trie.insert('p')
 
@@ -19,7 +19,7 @@ class TrieTest < Minitest::Test
   end
 
   def test_insert_2_letter_word
-    trie = Trie.new
+    trie = CompleteMe.new
 
     trie.insert('pi')
 
@@ -28,7 +28,7 @@ class TrieTest < Minitest::Test
   end
 
   def test_insert_5_letter_word
-    trie = Trie.new
+    trie = CompleteMe.new
 
     trie.insert('pizza')
 
@@ -40,7 +40,7 @@ class TrieTest < Minitest::Test
   end
 
   def test_insert_marks_end_of_word
-    trie = Trie.new
+    trie = CompleteMe.new
 
     trie.insert('pizza')
 
@@ -53,19 +53,28 @@ class TrieTest < Minitest::Test
   
   #later maybe test that insert functions correctly when substring of word already exists?
   
-  def test_count_will_count_1_word
-    trie = Trie.new
+  def test_counts_1_word
+    trie = CompleteMe.new
   
     trie.insert('pizza')
     
     assert_equal 1, trie.count
   end 
   
-  def test_count_will_count_10_words
-    trie = Trie.new
+  def test_counts_10_words
+    trie = CompleteMe.new
   
     insert_10_words(trie)
     
+    assert_equal 10, trie.count
+  end 
+
+  def test_counts_correctly_if_called_twice
+    trie = CompleteMe.new
+  
+    insert_10_words(trie)
+    
+    assert_equal 10, trie.count
     assert_equal 10, trie.count
   end 
   

@@ -1,11 +1,10 @@
 require "pry"
 require_relative 'node'
 
-#need to change class name to CompleteMe
 class CompleteMe
 
   attr_accessor :root
-  
+
   def initialize
     @root = Node.new(nil)
     @words = 0
@@ -25,17 +24,22 @@ class CompleteMe
     downcased = word.downcase
     downcased.chars
   end
-  
+
   def count(current_node = @root, current_count = 0)
     @words = current_count
-    if current_node.end_of_word 
+    if current_node.end_of_word
       @words += 1
-    end 
+    end
     current_node.links.each_key do |key|
-        count(current_node.links[key], @words)
-    end  
+      count(current_node.links[key], @words)
+    end
     @words
-  end 
+  end
+
+  def populate(dictionary)
+    file = File.open(dictionary, "r")
+    file.each do |line|
+      insert(line)
+    end
+  end
 end
-
-

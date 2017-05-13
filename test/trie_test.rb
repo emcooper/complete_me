@@ -50,4 +50,35 @@ class TrieTest < Minitest::Test
     refute trie.root.links['p'].links['i'].links['z'].end_of_word
     refute trie.root.links['p'].links['i'].links['z'].links['z'].end_of_word
   end
+  
+  #later maybe test that insert functions correctly when substring of word already exists?
+  
+  def test_count_will_count_1_word
+    trie = Trie.new
+  
+    trie.insert('pizza')
+    
+    assert_equal 1, trie.count
+  end 
+  
+  def test_count_will_count_10_words
+    trie = Trie.new
+  
+    insert_10_words(trie)
+    
+    assert_equal 10, trie.count
+  end 
+  
+  def insert_10_words(trie)
+    trie.insert('pizza')
+    trie.insert('pizzeria')
+    trie.insert('pepperoni')
+    trie.insert('mozzarella')
+    trie.insert('vegertarian')
+    trie.insert('italian')
+    trie.insert('neopolitan')
+    trie.insert('marinara')
+    trie.insert('hawaiian')
+    trie.insert('sausage')
+  end 
 end

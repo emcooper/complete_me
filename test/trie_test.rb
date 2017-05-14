@@ -97,6 +97,37 @@ class CompleteMeTest < Minitest::Test
 
     assert_equal 235886, trie.count
   end
+  
+  def test_suggests_correct_words
+    trie = CompleteMe.new
+    
+    insert_30_words(trie)
+    
+    assert_equal ["pepper", "pepperoni"], trie.suggest("pe")
+    assert_equal ["abhorrence", "abhorrer", "abhorrible"], trie.suggest("abh")
+  end 
+  
+  def test_suggests_in_order_of_times_selected 
+    skip
+  end 
+  
+  def test_end_node_returns_last_node_of_string
+    trie = CompleteMe.new
+
+    insert_10_words(trie)
+    
+    assert_equal "r", trie.end_node("pepper").letter
+    assert_equal "n", trie.end_node("hawaiian").letter
+  end 
+  
+  def test_end_node_returns_nil_for_nonexistent_string
+    trie = CompleteMe.new
+
+    insert_10_words(trie)
+    
+    assert_nil trie.end_node("pizzaroni")
+  end 
+  
 
   def insert_10_words(trie)
     trie.insert('piz')

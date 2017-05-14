@@ -7,7 +7,6 @@ class CompleteMe
 
   def initialize
     @root = Node.new(nil)
-    @words = 0
   end
 
   def insert(word, current_node = @root)

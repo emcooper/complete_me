@@ -20,15 +20,15 @@ class CompleteMe
     current_node.end_of_word = true
   end
 
-  def count(current_node = @root, current_count = 0)
-    @words = current_count
+  def count(current_node = @root)
+    word_count = 0
     if current_node.end_of_word
-      @words += 1
+      word_count += 1
     end
     current_node.links.each_value do |value|
-      count(value, @words)
+      word_count += count(value)
     end
-    @words
+    word_count
   end
 
   def populate(dictionary)

@@ -1,9 +1,9 @@
 require "pry"
-require_relative 'node'
+require_relative '../lib/node'
 
 class CompleteMe
 
-  attr_accessor :root
+  attr_reader :root
 
   def initialize
     @root = Node.new(nil)
@@ -29,6 +29,7 @@ class CompleteMe
     end
     word_count
   end
+  #todo: add feature to insert?
 
   def populate(dictionary)
     file = File.open(dictionary, "r")
@@ -36,35 +37,35 @@ class CompleteMe
       insert(line)
     end
   end
-  
+
   def suggest(substring)
-    substring_end_node = end_node(substring)
-    find_words(substring.chop, substring_end_node)
+    # substring_end_node = end_node(substring)
+    find_words(substring.chop, end_node(substring))
     #todo: sort words by score
-  end 
-  
+  end
+
   def end_node(string)
     counter = 0
     current_node = @root
     string.each_char do |char|
-      if current_node.links[char] != nil
-        current_node = current_node.links[char] 
+      if current_node.links[char]
+        current_node = current_node.links[char]
         counter += 1
-      end 
+      end
     end
     if counter == string.length
-      current_node 
-    end 
-  end 
-  
+      current_node
+    end
+  end
+
   def find_words(word, current_node, complete_words = [])
     word = word + current_node.letter
-    if current_node.end_of_word 
+    if current_node.end_of_word
       complete_words << word
-    end 
+    end
     current_node.links.each_value do |value|
       find_words(word, value, complete_words)
-    end 
+    end
     complete_words
-  end 
+  end
 end

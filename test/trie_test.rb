@@ -126,7 +126,76 @@ class CompleteMeTest < Minitest::Test
 
     assert_nil trie.end_node("pizzaroni")
   end
+  
+  def test_suggest_returns_in_sorted_order
+    trie = CompleteMe.new
 
+    insert_30_words(trie)
+    
+    trie.select('p', 'pizza')
+    trie.select('p', 'pizza')
+    trie.select('p', 'pizza')
+    trie.select('p', 'pepperoni')
+    
+    assert_equal ["pizza", "pepperoni", "pepper", "pizzeria"], trie.suggest("p")
+    #assert_equal ["pepper","pepperoni"], trie.suggest("pe")
+  end
+  
+  def test_selected_word_incremented_by_1
+    trie = CompleteMe.new 
+    
+    insert_10_words(trie)
+    
+    trie.select('piz', 'pizza')
+    
+    assert_equal 1, trie.end_node('piz').selected_words['pizza']
+  end 
+  
+  def test_selected_word_incremented_by_3
+    trie = CompleteMe.new 
+    
+    insert_10_words(trie)
+    
+    trie.select('piz', 'pizza')
+    trie.select('piz', 'pizza')
+    trie.select('piz', 'pizza')
+    
+    assert_equal 3, trie.end_node('piz').selected_words['pizza']
+  end 
+  
+  def test_selected_words_with_same_substring_increment_by_3
+    trie = CompleteMe.new 
+    
+    insert_10_words(trie)
+    
+    trie.select('piz', 'pizza')
+    trie.select('piz', 'pizza')
+    trie.select('piz', 'pizza')
+    
+    trie.select('piz', 'pizzeria')
+    trie.select('piz', 'pizzeria')
+    trie.select('piz', 'pizzeria')
+    
+    assert_equal 3, trie.end_node('piz').selected_words['pizza']
+    assert_equal 3, trie.end_node('piz').selected_words['pizzeria']
+  end 
+  
+  def test_can_not_select_words_that_do_not_include_substring
+    trie = CompleteMe.new 
+    
+    insert_10_words(trie)
+    
+    trie.select('piz', 'pizza')
+    trie.select('piz', 'pizza')
+    trie.select('piz', 'pizza')
+    
+    trie.select('piz', 'marinara')
+    trie.select('piz', 'marinara')
+    trie.select('piz', 'marinara')
+  
+    assert_equal 3, trie.end_node('piz').selected_words['pizza']
+    assert_nil trie.end_node('piz').selected_words['marinara']
+  end 
 
   def insert_10_words(trie)
     trie.insert('piz')

@@ -39,12 +39,11 @@ class CompleteMe
   end
 
   def suggest(substring)
-    # substring_end_node = end_node(substring)
-    suggestion = find_words(substring.chop, end_node(substring))
-    previous_selections = end_node(substring).selected_words.sort_by {|k,v| v}.keys
-    unselected = suggestion.reject {|word| previous_selections.include?(word)}
-    previous_selections + unselected
-    #todo: sort words by score
+    all_words = find_words(substring.chop, end_node(substring))
+    unselected_words = all_words.reject {|word| end_node(substring).selected_words.keys.include? word}.sort
+    selected_nested_collection = end_node(substring).selected_words.sort_by {|k, v| v}.reverse
+    selected_nested_collection.map! {|pair| pair[0]}
+    final_suggestion = selected_nested_collection + unselected_words
   end
 
   def end_node(string)
@@ -71,14 +70,14 @@ class CompleteMe
     end
     complete_words
   end
-  
+
   def select(substring, word)
     if word[0..substring.length-1] == substring
       if end_node(substring).selected_words[word].nil?
         end_node(substring).selected_words[word] = 0
       end
       end_node(substring).selected_words[word] += 1
-    end 
-  end 
-  
+    end
+  end
+
 end

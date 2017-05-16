@@ -1,5 +1,5 @@
 require_relative 'test_helper'
-require_relative '../lib/node'
+require './lib/node'
 
 class NodeTest < Minitest::Test
   def test_first_letter_and_default_values

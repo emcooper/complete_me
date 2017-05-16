@@ -1,5 +1,5 @@
 require "pry"
-require_relative '../lib/node'
+require './lib/node'
 
 class CompleteMe
 

@@ -1,5 +1,5 @@
 require_relative 'test_helper'
-require_relative '../lib/trie'
+require './lib/trie'
 
 
 class CompleteMeTest < Minitest::Test

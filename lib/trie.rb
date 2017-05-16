@@ -40,7 +40,10 @@ class CompleteMe
 
   def suggest(substring)
     # substring_end_node = end_node(substring)
-    find_words(substring.chop, end_node(substring))
+    suggestion = find_words(substring.chop, end_node(substring))
+    previous_selections = end_node(substring).selected_words.sort_by {|k,v| v}.keys
+    unselected = suggestion.reject {|word| previous_selections.include?(word)}
+    previous_selections + unselected
     #todo: sort words by score
   end
 
@@ -68,4 +71,14 @@ class CompleteMe
     end
     complete_words
   end
+  
+  def select(substring, word)
+    if word[0..substring.length-1] == substring
+      if end_node(substring).selected_words[word].nil?
+        end_node(substring).selected_words[word] = 0
+      end
+      end_node(substring).selected_words[word] += 1
+    end 
+  end 
+  
 end

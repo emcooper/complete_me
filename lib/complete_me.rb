@@ -1,5 +1,6 @@
 require "pry"
 require_relative '../lib/node'
+require './lib/file_io'
 
 class CompleteMe
 
@@ -10,6 +11,7 @@ class CompleteMe
   end
 
   def insert(word, current_node = @root)
+    word = word.chomp
     word.chars.each do |letter|
       if current_node.links[letter].nil?
         current_node.links[letter] = Node.new(letter)
@@ -29,11 +31,14 @@ class CompleteMe
     end
     word_count
   end
-  #todo: add feature to insert?
 
-  def populate(dictionary)
-    file = File.open(dictionary, "r")
-    file.each do |line|
+  def populate(input)
+    if input.class == File
+      list = list.open 
+    else 
+      list = input 
+    end 
+    list.each_line do |line|
       insert(line)
     end
   end

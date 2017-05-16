@@ -1,5 +1,5 @@
 require_relative 'test_helper'
-require_relative '../lib/trie'
+require_relative '../lib/complete_me'
 
 
 class CompleteMeTest < Minitest::Test
@@ -91,7 +91,7 @@ class CompleteMeTest < Minitest::Test
 
   def test_populate_inserts_words
     trie = CompleteMe.new
-    dictionary = File.path("/usr/share/dict/words")
+    dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
 
     assert_equal 235886, trie.count

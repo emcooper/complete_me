@@ -1,31 +1,25 @@
 class Node
-  attr_reader :letter, :links
-  attr_accessor :end_of_word, :selected_words
-
+  attr_reader :letter, :links, :selected_words, :end_of_word
   def initialize(letter)
     @letter = letter
     @links = {}
     @end_of_word = false
     @selected_words = {}
   end
-  
+
   def set_link(key, value)
     if key.class == String && key.length == 1 && value.class == Node
       @links[key] = value
-    end 
-  end 
+    end
+  end
 
-  # def set_times_selected(input)
-  #   if input.class = String
-  #     @times_selected = input.to_i
-  #end
+  def set_end_of_word
+    @end_of_word = true
+  end
+
+  def set_selected_word(key, value)
+    if key.class == String && value.class == Fixnum
+      @selected_words[key] = value
+    end
+  end
 end
-
-
-# class Trie
-#
-#   def set_end
-#     node.end_of_word = "true"
-#   end
-#
-# end

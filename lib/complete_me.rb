@@ -1,4 +1,5 @@
-require_relative '../lib/node'
+require 'pry'
+require './lib/node'
 require './lib/file_io'
 
 class CompleteMe
@@ -13,7 +14,7 @@ class CompleteMe
       set_node(letter, current_node) unless link_exists?(letter, current_node)
       current_node = next_node(letter, current_node)
     end
-    current_node.end_of_word = true
+    current_node.set_end_of_word
   end
 
   def chompped_letters(word)
@@ -22,7 +23,7 @@ class CompleteMe
 
   def set_node(letter, current_node)
     current_node.set_link(letter, Node.new(letter))
-  end 
+  end
 
 
   def count(current_node = @root)
@@ -81,9 +82,9 @@ class CompleteMe
   def select(substring, word)
     return nil if substring_not_included?(word, substring)
     if end_node(substring).selected_words[word].nil?
-      end_node(substring).selected_words[word] = 0
+      end_node(substring).set_selected_word(word, 0)
     end
-    end_node(substring).selected_words[word] += 1
+    end_node(substring).set_selected_word(word, end_node(substring).selected_words[word] + 1)
   end
 
   def substring_not_included?(word, substring)

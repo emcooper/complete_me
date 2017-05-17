@@ -103,7 +103,7 @@ class CompleteMeTest < Minitest::Test
     assert_equal ["pepper", "pepperoni"], trie.suggest("pe")
     assert_equal ["abhorrence", "abhorrer", "abhorrible"], trie.suggest("abh")
   end
-  
+
   def test_suggest_returns_in_sorted_order
     trie = CompleteMe.new
 
@@ -116,6 +116,14 @@ class CompleteMeTest < Minitest::Test
 
     assert_equal ["pizza", "pepperoni", "pepper", "pizzeria"], trie.suggest("p")
     assert_equal ["pepper","pepperoni"], trie.suggest("pe")
+  end
+
+  def test_suggest_will_include_substring_if_substring_is_a_word
+    trie = CompleteMe.new
+
+    insert_30_words(trie)
+
+    assert_equal ['pepper', 'pepperoni'], trie.suggest('pepper')
   end
 
   def test_end_node_returns_last_node_of_string
@@ -134,15 +142,15 @@ class CompleteMeTest < Minitest::Test
 
     assert_nil trie.end_node("pizzaroni")
   end
-  
+
   def test_find_words_returns_all_complete_words_of_substring
     trie = CompleteMe.new
 
     insert_30_words(trie)
-    
+
     assert_equal ["pizza", "pizzeria", "pepper", "pepperoni"], trie.find_words("p".chop, trie.end_node("p"))
-    assert_equal ["abacay","abaculus"], trie.find_words("abac".chop, trie.end_node("abac")) 
-  end 
+    assert_equal ["abacay","abaculus"], trie.find_words("abac".chop, trie.end_node("abac"))
+  end
 
   def test_selected_word_increments_by_1
     trie = CompleteMe.new

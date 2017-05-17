@@ -7,6 +7,8 @@ class FileIoTest < Minitest::Test
 
     file_path = "/usr/share/dict/words"
 
-    refute new_file_io.open(file_path).closed?
+    new_file_io.open_file(file_path)
+
+    refute new_file_io.open_file(file_path).closed?
   end
 end

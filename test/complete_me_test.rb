@@ -1,6 +1,5 @@
 require './test/test_helper'
 require './lib/complete_me'
-require './lib/complete_me'
 
 class CompleteMeTest < Minitest::Test
   def test_root_is_node_with_nil_letter

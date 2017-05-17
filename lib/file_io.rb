@@ -1,5 +1,5 @@
 class FileIo
-  def open(file_path)
+  def open_file(file_path)
     File.open(file_path, "r")
-  end 
-end 
+  end
+end

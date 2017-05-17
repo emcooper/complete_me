@@ -17,14 +17,14 @@ class CompleteMe
     end
     current_node.end_of_word = true
   end
-  
+
   def chompped_letters(word)
     word.chomp.chars
   end
-  
+
   def set_node(letter, current_node)
     current_node.links[letter] = Node.new(letter)
-  end 
+  end
 
   def count(current_node = @root)
     word_count = 0
@@ -46,15 +46,17 @@ class CompleteMe
     sorted_selected = sort_selected_words(substring)
     final_suggestion = sorted_selected + unselected
   end
-  
+
   def sort_selected_words(substring)
-    sorted_pairs = end_node(substring).selected_words.sort_by {|k, v| v}.reverse
+    previously_selected = end_node(substring).selected_words
+    sorted_pairs = previously_selected.sort_by {|k, v| v}.reverse
     sorted_pairs.map {|pair| pair[0]}
-  end 
-  
+  end
+
   def unselected_words(all_words, substring)
-    all_words.reject {|word| end_node(substring).selected_words.keys.include? word}.sort
-  end 
+    previously_selected = end_node(substring).selected_words
+    all_words.reject {|word| previously_selected.keys.include? word}.sort
+  end
 
   def end_node(string)
     counter = 0
@@ -82,19 +84,19 @@ class CompleteMe
     if end_node(substring).selected_words[word].nil?
       end_node(substring).selected_words[word] = 0
     end
-    end_node(substring).selected_words[word] += 1   
+    end_node(substring).selected_words[word] += 1
   end
-  
+
   def substring_not_included?(word, substring)
     word[0..substring.length-1] != substring
   end
-  
+
   def link_exists?(letter, current_node)
     !current_node.links[letter].nil?
-  end 
-  
+  end
+
   def next_node(letter, current_node)
     current_node.links[letter]
-  end 
+  end
 
 end

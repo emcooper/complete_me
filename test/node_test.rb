@@ -1,4 +1,4 @@
-require_relative 'test_helper'
+require './test/test_helper'
 require './lib/node'
 
 class NodeTest < Minitest::Test
@@ -8,7 +8,7 @@ class NodeTest < Minitest::Test
     assert_equal 'a', new_letter.letter
     assert_equal ({}), new_letter.links
     refute new_letter.end_of_word
-    assert_equal 0, new_letter.times_selected
+    assert_equal ({}), new_letter.selected_words
   end
 
   def test_node_can_have_different_letter
@@ -33,10 +33,12 @@ class NodeTest < Minitest::Test
     assert new_letter.end_of_word
   end
 
-  def test_times_selected_can_increment
+  def test_selected_words_can_have_keys_and_values
     new_letter = Node.new('a')
-    new_letter.times_selected += 1
+    new_letter.selected_words['apple'] = 3
+    new_letter.selected_words['animal'] = 6
 
-    assert_equal 1, new_letter.times_selected
+    assert_equal 3, new_letter.selected_words['apple']
+    assert_equal 6, new_letter.selected_words['animal']
   end
 end

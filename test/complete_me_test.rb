@@ -56,13 +56,11 @@ class CompleteMeTest < Minitest::Test
 
     insert_10_words(trie)
 
-    assert trie.root.links['p'].links['i'].links['z'].end_of_word
+    assert trie.root.links['p'].links['i'].links['z'].links['z'].links['a'].end_of_word
     assert trie.root.links['p'].links['i'].links['z'].links['z'].links['e'].links['r'].links['i'].links['a'].end_of_word
     assert trie.root.links['p'].links['e'].links['p'].links['p'].links['e'].links['r'].links['o'].links['n'].links['i'].end_of_word
     assert trie.root.links['p'].links['e'].links['p'].links['p'].links['e'].links['r'].end_of_word
   end
-
-  #later maybe test that insert functions correctly when substring of word already exists?
 
   def test_counts_1_word
     trie = CompleteMe.new
@@ -105,6 +103,20 @@ class CompleteMeTest < Minitest::Test
     assert_equal ["pepper", "pepperoni"], trie.suggest("pe")
     assert_equal ["abhorrence", "abhorrer", "abhorrible"], trie.suggest("abh")
   end
+  
+  def test_suggest_returns_in_sorted_order
+    trie = CompleteMe.new
+
+    insert_30_words(trie)
+
+    trie.select('p', 'pizza')
+    trie.select('p', 'pizza')
+    trie.select('p', 'pizza')
+    trie.select('p', 'pepperoni')
+
+    assert_equal ["pizza", "pepperoni", "pepper", "pizzeria"], trie.suggest("p")
+    assert_equal ["pepper","pepperoni"], trie.suggest("pe")
+  end
 
   def test_end_node_returns_last_node_of_string
     trie = CompleteMe.new
@@ -122,22 +134,17 @@ class CompleteMeTest < Minitest::Test
 
     assert_nil trie.end_node("pizzaroni")
   end
-
-  def test_suggest_returns_in_sorted_order
+  
+  def test_find_words_returns_all_complete_words_of_substring
     trie = CompleteMe.new
 
     insert_30_words(trie)
+    
+    assert_equal ["pizza", "pizzeria", "pepper", "pepperoni"], trie.find_words("p".chop, trie.end_node("p"))
+    assert_equal ["abacay","abaculus"], trie.find_words("abac".chop, trie.end_node("abac")) 
+  end 
 
-    trie.select('p', 'pizza')
-    trie.select('p', 'pizza')
-    trie.select('p', 'pizza')
-    trie.select('p', 'pepperoni')
-
-    assert_equal ["pizza", "pepperoni", "pepper", "pizzeria"], trie.suggest("p")
-    assert_equal ["pepper","pepperoni"], trie.suggest("pe")
-  end
-
-  def test_selected_word_incremented_by_1
+  def test_selected_word_increments_by_1
     trie = CompleteMe.new
 
     insert_10_words(trie)
@@ -194,11 +201,11 @@ class CompleteMeTest < Minitest::Test
   end
 
   def insert_10_words(trie)
-    trie.insert('piz')
+    trie.insert('pizza')
     trie.insert('pizzeria')
     trie.insert('pepperoni')
     trie.insert('pepper')
-    trie.insert('vegertarian')
+    trie.insert('vegetarian')
     trie.insert('italian')
     trie.insert('neopolitan')
     trie.insert('marinara')
@@ -211,13 +218,13 @@ class CompleteMeTest < Minitest::Test
     trie.insert('pizzeria')
     trie.insert('pepperoni')
     trie.insert('pepper')
-    trie.insert('vegertarian')
+    trie.insert('vegetarian')
     trie.insert('italian')
     trie.insert('neopolitan')
     trie.insert('marinara')
     trie.insert('hawaiian')
     trie.insert('sausage')
-    trie.insert("abacay")
+    trie.insert('abacay')
     trie.insert('abaculus')
     trie.insert('abaissed')
     trie.insert('abalone')

@@ -23,7 +23,7 @@ class CompleteMe
   end
   
   def set_node(letter, current_node)
-    current_node.links[letter] = Node.new(letter)
+    current_node.set_link(letter, Node.new(letter))
   end 
 
   def count(current_node = @root)

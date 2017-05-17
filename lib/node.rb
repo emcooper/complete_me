@@ -1,6 +1,6 @@
 class Node
-  attr_reader :letter
-  attr_accessor :links, :end_of_word, :selected_words
+  attr_reader :letter, :links
+  attr_accessor :end_of_word, :selected_words
 
   def initialize(letter)
     @letter = letter
@@ -9,6 +9,11 @@ class Node
     @selected_words = {}
   end
   
+  def set_link(key, value)
+    if key.class == String && key.length == 1 && value.class == Node
+      @links[key] = value
+    end 
+  end 
 
   # def set_times_selected(input)
   #   if input.class = String

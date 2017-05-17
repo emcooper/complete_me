@@ -1,9 +1,7 @@
-require "pry"
 require_relative '../lib/node'
 require './lib/file_io'
 
 class CompleteMe
-
   attr_reader :root
 
   def initialize
@@ -12,7 +10,7 @@ class CompleteMe
 
   def insert(word, current_node = @root)
     chompped_letters(word).each do |letter|
-      set_node(letter, current_node) if !link_exists?(letter, current_node)
+      set_node(letter, current_node) unless link_exists?(letter, current_node)
       current_node = next_node(letter, current_node)
     end
     current_node.end_of_word = true
@@ -37,25 +35,25 @@ class CompleteMe
 
   def populate(input)
     input = list.open if input.class == File
-    input.each_line {|line| insert(line)}
+    input.each_line { |line| insert(line) }
   end
 
   def suggest(substring)
     all_words = find_words(substring.chop, end_node(substring))
     unselected = unselected_words(all_words, substring)
     sorted_selected = sort_selected_words(substring)
-    final_suggestion = sorted_selected + unselected
+    sorted_selected + unselected
   end
 
   def sort_selected_words(substring)
     previously_selected = end_node(substring).selected_words
-    sorted_pairs = previously_selected.sort_by {|k, v| v}.reverse
-    sorted_pairs.map {|pair| pair[0]}
+    sorted_pairs = previously_selected.sort_by { |_k, v| v }.reverse
+    sorted_pairs.map { |pair| pair[0] }
   end
 
   def unselected_words(all_words, substring)
     previously_selected = end_node(substring).selected_words
-    all_words.reject {|word| previously_selected.keys.include? word}.sort
+    all_words.reject { |word| previously_selected.keys.include? word }.sort
   end
 
   def end_node(string)
@@ -88,7 +86,7 @@ class CompleteMe
   end
 
   def substring_not_included?(word, substring)
-    word[0..substring.length-1] != substring
+    word[0..substring.length - 1] != substring
   end
 
   def link_exists?(letter, current_node)
@@ -98,5 +96,4 @@ class CompleteMe
   def next_node(letter, current_node)
     current_node.links[letter]
   end
-
 end

@@ -106,10 +106,6 @@ class CompleteMeTest < Minitest::Test
     assert_equal ["abhorrence", "abhorrer", "abhorrible"], trie.suggest("abh")
   end
 
-  def test_suggests_in_order_of_times_selected
-    skip
-  end
-
   def test_end_node_returns_last_node_of_string
     trie = CompleteMe.new
 
@@ -138,7 +134,7 @@ class CompleteMeTest < Minitest::Test
     trie.select('p', 'pepperoni')
 
     assert_equal ["pizza", "pepperoni", "pepper", "pizzeria"], trie.suggest("p")
-    #assert_equal ["pepper","pepperoni"], trie.suggest("pe")
+    assert_equal ["pepper","pepperoni"], trie.suggest("pe")
   end
 
   def test_selected_word_incremented_by_1

@@ -1,5 +1,5 @@
-require_relative 'test_helper'
-require_relative '../lib/node'
+require './test/test_helper'
+require './lib/node'
 
 class NodeTest < Minitest::Test
   def test_first_letter_and_default_values
@@ -67,7 +67,7 @@ class NodeTest < Minitest::Test
   def test_end_of_word_can_be_true
     new_letter = Node.new('a')
     new_letter.end_of_word = true
-    
+
     assert new_letter.end_of_word
   end
 

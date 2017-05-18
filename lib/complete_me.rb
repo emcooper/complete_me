@@ -1,8 +1,7 @@
-require 'pry'
 require './lib/node'
 require './lib/file_io'
 
-class CompleteMe
+class CompleteMe 
   attr_reader :root
 
   def initialize

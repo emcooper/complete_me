@@ -1,10 +1,8 @@
-require 'pry'
 require './lib/node'
 require './lib/file_io'
 
 class CompleteMe
   attr_reader :root
-
   def initialize
     @root = Node.new(nil)
   end
@@ -16,15 +14,6 @@ class CompleteMe
     end
     current_node.set_end_of_word
   end
-
-  def chompped_letters(word)
-    word.chomp.chars
-  end
-
-  def set_node(letter, current_node)
-    current_node.set_link(letter, Node.new(letter))
-  end
-
 
   def count(current_node = @root)
     word_count = 0
@@ -48,14 +37,17 @@ class CompleteMe
   end
 
   def sort_selected_words(substring)
-    previously_selected = end_node(substring).selected_words
-    sorted_pairs = previously_selected.sort_by { |_k, v| v }.reverse
+    sorted_pairs = prior_selections(substring).sort_by { |_k, v| v }.reverse
     sorted_pairs.map { |pair| pair[0] }
   end
 
   def unselected_words(all_words, substring)
-    previously_selected = end_node(substring).selected_words
-    all_words.reject { |word| previously_selected.keys.include? word }.sort
+    previously_selected_words = prior_selections(substring).keys
+    all_words.reject { |word| previously_selected_words.include? word }.sort
+  end
+
+  def prior_selections(substring)
+    end_node(substring).selected_words
   end
 
   def end_node(string)
@@ -80,15 +72,21 @@ class CompleteMe
   end
 
   def select(substring, word)
+    times_selected = end_node(substring).selected_words[word]
     return nil if substring_not_included?(word, substring)
-    if end_node(substring).selected_words[word].nil?
-      end_node(substring).set_selected_word(word, 0)
+    if times_selected.nil?
+      end_node(substring).set_selected_word(word, 1)
+    else
+      end_node(substring).set_selected_word(word, times_selected + 1)
     end
-    end_node(substring).set_selected_word(word, end_node(substring).selected_words[word] + 1)
   end
 
-  def substring_not_included?(word, substring)
-    word[0..substring.length - 1] != substring
+  def chompped_letters(word)
+    word.chomp.chars
+  end
+
+  def set_node(letter, current_node)
+    current_node.set_link(letter, Node.new(letter))
   end
 
   def link_exists?(letter, current_node)
@@ -97,5 +95,9 @@ class CompleteMe
 
   def next_node(letter, current_node)
     current_node.links[letter]
+  end
+
+  def substring_not_included?(word, substring)
+    word[0..substring.length - 1] != substring
   end
 end

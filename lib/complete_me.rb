@@ -35,7 +35,7 @@ class CompleteMe
   end
 
   def populate(input)
-    input = list.open if input.class == File
+    input = list.open_file if input.class == File
     input.each_line { |line| insert(line) }
   end
 

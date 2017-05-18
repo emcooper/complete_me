@@ -1,7 +1,7 @@
 require './lib/node'
 require './lib/file_io'
 
-class CompleteMe
+class CompleteMe 
   attr_reader :root
   def initialize
     @root = Node.new(nil)
@@ -25,7 +25,7 @@ class CompleteMe
   end
 
   def populate(input)
-    input = list.open if input.class == File
+    input = list.open_file if input.class == File
     input.each_line { |line| insert(line) }
   end
 

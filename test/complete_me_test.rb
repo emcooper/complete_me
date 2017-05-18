@@ -50,7 +50,6 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_insert_marks_end_of_10_words
-    #todo
     trie = CompleteMe.new
 
     insert_10_words(trie)

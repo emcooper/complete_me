@@ -64,12 +64,6 @@ class NodeTest < Minitest::Test
     assert_nil letter1.links['a']
   end
 
-  def test_end_of_word_cannot_be_nonboolean
-    new_letter = Node.new('a')
-    new_letter.set_end_of_word
-
-    refute new_letter.end_of_word
-  end
 
   def test_selected_words_can_have_keys_and_values
     new_letter = Node.new('a')
